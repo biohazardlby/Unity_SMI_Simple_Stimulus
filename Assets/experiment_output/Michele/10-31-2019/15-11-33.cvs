@@ -1,0 +1,2 @@
+SMI_timestamp,Unity_timestamp,head_pos_x,head_pos_y,head_pos_z,head_rot_x,head_rot_y,head_rot_z,head_rot_w,gaze_l_x,gaze_l_y,gaze_l_z,gaze_r_x,gaze_r_y,gaze_r_z,session_idx,stimulus_deg
+0,1.313329,-0.4385631,0.9657686,-0.07859381,-0.02466876,0.6977124,0.02027868,0.7156659,0,0,0,0,0,0,0,0
