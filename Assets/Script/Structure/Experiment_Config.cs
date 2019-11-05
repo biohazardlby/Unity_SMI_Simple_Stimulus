@@ -30,7 +30,7 @@ public class Experiment_Config : MonoBehaviour
         ctrl.user_name = GameObject.Find("user_name").GetComponent<Text>().text;
         ctrl.sample_rate = float.Parse(GameObject.Find("Sample_Rate").GetComponent<Text>().text);
         ctrl.stimulus_interval = float.Parse(GameObject.Find("Stimulus_Interval").GetComponent<Text>().text);
-
+        ctrl.show_gaze_cursor = true;
         GameObject SMI_Instance = GameObject.Instantiate(SMI_Prefab);
         SMI_Instance.GetComponent<Camera>().backgroundColor = Color.gray;
 

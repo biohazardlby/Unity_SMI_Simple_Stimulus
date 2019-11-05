@@ -114,10 +114,6 @@ public class Experiment_Ctrl : MonoBehaviour
         gaze_cursor = GameObject.Instantiate(Resources.Load<GameObject>("SMI_GazePoint"));
         gaze_cursor.name = "SMI_Gaze_Sprite_Prefab";
     }
-    void Update_Gaze_Cursor()
-    {
-
-    }
     void Start_Trial()
     {
         //display play button
@@ -132,6 +128,7 @@ public class Experiment_Ctrl : MonoBehaviour
     {
         try
         {
+            GameObject.Find("Experiment_UI").GetComponent<Canvas>().worldCamera = cam.GetComponent<Camera>();
             Image playButton = GameObject.Find("PlayButton").GetComponent<Image>();
             playButton.enabled = true;
             Invoke("Disable_PlayButton", 1);
