@@ -66,7 +66,7 @@ public class Random_Trial_Generator
                 }
                 else
                 {
-                    int f = s;
+                    int f = s+1;
                     while (!IsBetween(start + raw_direction[f], min, max))
                     {
                         f++;
@@ -79,7 +79,7 @@ public class Random_Trial_Generator
         }
         catch (System.IndexOutOfRangeException e)
         {
-            Debug.LogError("input is not balanced\n" + e.Message);
+            Debug.LogError("input is not balanced\n" + e.Message + "\n" +e.InnerException);
         }
         return res;
     }

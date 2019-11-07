@@ -83,6 +83,11 @@ public class Experiment_Ctrl : MonoBehaviour
 
     void Update()
     {
+        Process_Input();
+        Update_Cursor_Position();
+    }
+    void Process_Input()
+    {
         if (Input.GetKeyDown(KeyCode.S) && ctrl_status == Ctrl_STATUS.WAITING)
         {
             Start_Trial();
@@ -92,7 +97,11 @@ public class Experiment_Ctrl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
-
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            show_gaze_cursor = !show_gaze_cursor;
+            gaze_cursor.GetComponent<Camera_Facing_Sprite>().amActive = show_gaze_cursor;
         }
         for (int i = 0; i < usrTags.Length; i++)
         {
@@ -105,14 +114,20 @@ public class Experiment_Ctrl : MonoBehaviour
                 usrTagBools[i] = false;
             }
         }
-        draw_gaze_ray();
     }
-
 
     void Init_Gaze_Cursor()
     {
-        gaze_cursor = GameObject.Instantiate(Resources.Load<GameObject>("SMI_GazePoint"));
+        gaze_cursor = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/SMI_Gaze_Sprite_Prefab"));
         gaze_cursor.name = "SMI_Gaze_Sprite_Prefab";
+        gaze_cursor.GetComponent<Camera_Facing_Sprite>().amActive = show_gaze_cursor;
+    }
+    void Update_Cursor_Position()
+    {
+        if (gaze_cursor != null)
+        {
+            gaze_cursor.transform.position = cam.transform.position + cam.transform.rotation * (gaze_l + gaze_r) / 2 * 20;
+        }
     }
     void Start_Trial()
     {
@@ -184,9 +199,9 @@ public class Experiment_Ctrl : MonoBehaviour
                 );
             Application.Quit();
         }
-        leftEye = GameObject.Instantiate(eyeball_prefab);
+        leftEye = GameObject.Instantiate(eyeball_prefab, cam.transform);
         leftEye.name = "leftEye";
-        rightEye = GameObject.Instantiate(eyeball_prefab);
+        rightEye = GameObject.Instantiate(eyeball_prefab, cam.transform);
         rightEye.name = "rightEye";
     }
     /// <summary>
@@ -198,12 +213,12 @@ public class Experiment_Ctrl : MonoBehaviour
         var rightEyePos = SMI.SMIEyeTrackingUnity.Instance.smi_GetRightGazeBase();
         if (SMI.SMIEyeTrackingUnity.smi_IsValid(leftEyePos))
         {
-            leftEye.transform.position = leftEyePos + cam.transform.position;
+            leftEye.transform.localPosition = leftEyePos + cam.transform.position;
         }
 
         if (SMI.SMIEyeTrackingUnity.smi_IsValid(rightEyePos))
         {
-            rightEye.transform.position = rightEyePos + cam.transform.position;
+            rightEye.transform.localPosition = rightEyePos + cam.transform.position;
         }
 
         var SMI_leftEyeGaze = SMI.SMIEyeTrackingUnity.Instance.smi_GetLeftGazeDirection();
@@ -256,7 +271,7 @@ public class Experiment_Ctrl : MonoBehaviour
     {
         if (session_num < stimulus_rotations_arr.Length)
         {
-            change_stimulus_location(stimulus_cur_rot + stimulus_rotations_arr[session_num]);
+            Set_Stimulus_Rotation_In_Head(stimulus_cur_rot + stimulus_rotations_arr[session_num]);
             stimulus_cur_rot += stimulus_rotations_arr[session_num];
             session_num++;
         }
@@ -269,7 +284,7 @@ public class Experiment_Ctrl : MonoBehaviour
     /// Change stimulus location in degree relative to head
     /// </summary>
     /// <param name="degree"></param>
-    void change_stimulus_location(float degree)
+    void Set_Stimulus_Rotation_In_Head(float degree)
     {
         stimulus.transform.localRotation = Quaternion.identity;
         Transform camTrans = cam.transform;
@@ -284,11 +299,6 @@ public class Experiment_Ctrl : MonoBehaviour
     /// <summary>
     /// Debug: draw gaze ray for debug
     /// </summary>
-    void draw_gaze_ray()
-    {
-        //Debug.DrawRay(leftEye.transform.position, cam.transform.rotation * gaze_l * 50,Color.red);
-        //Debug.DrawRay(rightEye.transform.position, cam.transform.rotation * gaze_r * 50, Color.blue);
-    }
 
     private void OnApplicationQuit()
     {

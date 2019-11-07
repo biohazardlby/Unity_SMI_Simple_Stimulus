@@ -39,7 +39,7 @@ public class DataLogger
         folder_path += "/" + date_time_info;
 
         Directory.CreateDirectory(folder_path);
-        string file_name = System.DateTime.Now.ToString("HH-mm-ss") + ".cvs";
+        string file_name = System.DateTime.Now.ToString("HH-mm-ss") + ".csv";
         string file_path = folder_path + "/" + file_name;
 
         //connect Streamwriter to cvs file
