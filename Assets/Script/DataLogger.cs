@@ -36,6 +36,10 @@ public class DataLogger
         {
             folder_path += "/" + usr_name;
         }
+        else
+        {
+            folder_path += "/default";
+        }
         folder_path += "/" + date_time_info;
 
         Directory.CreateDirectory(folder_path);
