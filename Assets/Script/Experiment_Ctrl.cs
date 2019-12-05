@@ -15,6 +15,8 @@ public class Experiment_Ctrl : MonoBehaviour
     public bool show_gaze_cursor;
 
     public GameObject cam;
+    public GameObject UI_Cam;
+
 
     GameObject stimulus_prefab;
     GameObject stimulus;
@@ -37,7 +39,7 @@ public class Experiment_Ctrl : MonoBehaviour
     public bool[] usrTagBools;
 
     DataLogger logger;
-    GameObject UI_Cam;
+
     GameObject gaze_cursor;
 
     Ctrl_STATUS ctrl_status;
@@ -52,6 +54,8 @@ public class Experiment_Ctrl : MonoBehaviour
         UI_Cam = new GameObject("UI_Camera");
         UI_Cam.AddComponent<Camera>();
         UI_Cam.GetComponent<Camera>().backgroundColor = Color.black;
+        GameObject.Find("Experiment_UI").GetComponent<Canvas>().worldCamera = UI_Cam.GetComponent<Camera>();
+        GameObject.Find("Menu").GetComponent<Canvas>().worldCamera = UI_Cam.GetComponent<Camera>();
     }
 
     public void Finish_Configuration()

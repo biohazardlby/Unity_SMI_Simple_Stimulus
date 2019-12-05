@@ -5,11 +5,22 @@ using UnityEditor;
 public class Experiment_Config : MonoBehaviour
 {
     public GameObject SMI_Prefab;
+    GameObject Instruction_UI_GO;
 
      bool Instantiate_Gaze_Cursor = true;
      bool Enable_SMI_Notification = true;
      bool Is_Simulation_Mode_Active = true;
 
+    public void Show_Instruction()
+    {
+        Instruction_UI_GO = GameObject.Instantiate(Resources.Load("Prefabs/UI/Instruction")) as GameObject;
+        Instruction_UI_GO.GetComponentInChildren<Button>().onClick.AddListener(delegate { Close_Instruction(); });
+        Instruction_UI_GO.GetComponent<Canvas>().worldCamera = GetComponent<Experiment_Ctrl>().UI_Cam.GetComponent<Camera>();
+    }
+    public void Close_Instruction()
+    {
+        Destroy(Instruction_UI_GO);
+    }
     public GameObject Instantiate_SMI()
     {
         try
